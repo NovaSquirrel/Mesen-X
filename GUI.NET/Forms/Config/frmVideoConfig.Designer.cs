@@ -63,10 +63,17 @@ namespace Mesen.GUI.Forms.Config
             this.btnSelectPreset = new System.Windows.Forms.Button();
             this.btnResetPictureSettings = new System.Windows.Forms.Button();
             this.grpNtscFilter = new System.Windows.Forms.GroupBox();
+            this.tlpNtscFilter3 = new System.Windows.Forms.TableLayoutPanel();
+            this.trkNoise = new Mesen.GUI.Controls.ctrlHorizontalTrackbar();
+            this.chkFrameBlend = new System.Windows.Forms.CheckBox();
             this.tlpNtscFilter2 = new System.Windows.Forms.TableLayoutPanel();
             this.trkYFilterLength = new Mesen.GUI.Controls.ctrlHorizontalTrackbar();
             this.trkIFilterLength = new Mesen.GUI.Controls.ctrlHorizontalTrackbar();
             this.trkQFilterLength = new Mesen.GUI.Controls.ctrlHorizontalTrackbar();
+            this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
+            this.chkColorimetryCorrection = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tlpNtscFilter1 = new System.Windows.Forms.TableLayoutPanel();
             this.trkArtifacts = new Mesen.GUI.Controls.ctrlHorizontalTrackbar();
             this.trkBleed = new Mesen.GUI.Controls.ctrlHorizontalTrackbar();
@@ -77,8 +84,8 @@ namespace Mesen.GUI.Forms.Config
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.chkMergeFields = new System.Windows.Forms.CheckBox();
             this.chkVerticalBlend = new System.Windows.Forms.CheckBox();
-            this.chkColorimetryCorrection = new System.Windows.Forms.CheckBox();
             this.chkUseExternalPalette = new System.Windows.Forms.CheckBox();
+            this.chkKeepVerticalResolution = new System.Windows.Forms.CheckBox();
             this.grpCommon = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.chkBilinearInterpolation = new System.Windows.Forms.CheckBox();
@@ -174,7 +181,10 @@ namespace Mesen.GUI.Forms.Config
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.grpNtscFilter.SuspendLayout();
+            this.tlpNtscFilter3.SuspendLayout();
             this.tlpNtscFilter2.SuspendLayout();
+            this.tableLayoutPanel19.SuspendLayout();
+            this.tableLayoutPanel20.SuspendLayout();
             this.tlpNtscFilter1.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.grpCommon.SuspendLayout();
@@ -260,7 +270,6 @@ namespace Mesen.GUI.Forms.Config
             this.flpResolution.Size = new System.Drawing.Size(491, 27);
             this.flpResolution.TabIndex = 27;
             this.flpResolution.Visible = false;
-            this.flpResolution.Paint += new System.Windows.Forms.PaintEventHandler(this.flpResolution_Paint);
             // 
             // lblFullscreenResolution
             // 
@@ -682,6 +691,7 @@ namespace Mesen.GUI.Forms.Config
             // 
             // grpNtscFilter
             // 
+            this.grpNtscFilter.Controls.Add(this.tlpNtscFilter3);
             this.grpNtscFilter.Controls.Add(this.tlpNtscFilter2);
             this.grpNtscFilter.Controls.Add(this.tlpNtscFilter1);
             this.grpNtscFilter.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -694,6 +704,58 @@ namespace Mesen.GUI.Forms.Config
             this.grpNtscFilter.TabStop = false;
             this.grpNtscFilter.Text = "NTSC Filter";
             // 
+            // tlpNtscFilter3
+            // 
+            this.tlpNtscFilter3.ColumnCount = 1;
+            this.tlpNtscFilter3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpNtscFilter3.Controls.Add(this.trkNoise, 0, 0);
+            this.tlpNtscFilter3.Controls.Add(this.tableLayoutPanel20, 0, 1);
+            this.tlpNtscFilter3.Location = new System.Drawing.Point(3, 16);
+            this.tlpNtscFilter3.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpNtscFilter3.Name = "tlpNtscFilter3";
+            this.tlpNtscFilter3.RowCount = 2;
+            this.tlpNtscFilter3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpNtscFilter3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpNtscFilter3.Size = new System.Drawing.Size(253, 350);
+            this.tlpNtscFilter3.TabIndex = 7;
+            // 
+            // trkNoise
+            // 
+            this.trkNoise.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trkNoise.Location = new System.Drawing.Point(0, 0);
+            this.trkNoise.Margin = new System.Windows.Forms.Padding(0);
+            this.trkNoise.Maximum = 500;
+            this.trkNoise.MaximumSize = new System.Drawing.Size(0, 41);
+            this.trkNoise.Minimum = 0;
+            this.trkNoise.MinimumSize = new System.Drawing.Size(206, 50);
+            this.trkNoise.Name = "trkNoise";
+            this.trkNoise.Size = new System.Drawing.Size(253, 50);
+            this.trkNoise.TabIndex = 26;
+            this.trkNoise.Text = "Signal noise";
+            this.trkNoise.Value = 0;
+            // 
+            // tableLayoutPanel20
+            // 
+            this.tableLayoutPanel20.ColumnCount = 1;
+            this.tableLayoutPanel20.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel20.Controls.Add(this.chkFrameBlend, 0, 0);
+            this.tableLayoutPanel20.Location = new System.Drawing.Point(3, 153);
+            this.tableLayoutPanel20.Name = "tableLayoutPanel20";
+            this.tableLayoutPanel20.RowCount = 1;
+            this.tableLayoutPanel20.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel20.Size = new System.Drawing.Size(247, 50);
+            this.tableLayoutPanel20.TabIndex = 27;
+            // 
+            // chkFrameBlend
+            // 
+            this.chkFrameBlend.AutoSize = true;
+            this.chkFrameBlend.Location = new System.Drawing.Point(3, 3);
+            this.chkFrameBlend.Name = "chkFrameBlend";
+            this.chkFrameBlend.Size = new System.Drawing.Size(101, 17);
+            this.chkFrameBlend.TabIndex = 32;
+            this.chkFrameBlend.Text = "Frame blend";
+            this.chkFrameBlend.UseVisualStyleBackColor = true;
+            // 
             // tlpNtscFilter2
             // 
             this.tlpNtscFilter2.ColumnCount = 1;
@@ -701,19 +763,18 @@ namespace Mesen.GUI.Forms.Config
             this.tlpNtscFilter2.Controls.Add(this.trkYFilterLength, 0, 0);
             this.tlpNtscFilter2.Controls.Add(this.trkIFilterLength, 0, 1);
             this.tlpNtscFilter2.Controls.Add(this.trkQFilterLength, 0, 2);
+            this.tlpNtscFilter2.Controls.Add(this.tableLayoutPanel19, 0, 3);
             this.tlpNtscFilter2.Dock = System.Windows.Forms.DockStyle.Top;
             this.tlpNtscFilter2.Location = new System.Drawing.Point(3, 16);
             this.tlpNtscFilter2.Margin = new System.Windows.Forms.Padding(0);
             this.tlpNtscFilter2.Name = "tlpNtscFilter2";
-            this.tlpNtscFilter2.RowCount = 7;
+            this.tlpNtscFilter2.RowCount = 4;
             this.tlpNtscFilter2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpNtscFilter2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpNtscFilter2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpNtscFilter2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpNtscFilter2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpNtscFilter2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpNtscFilter2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpNtscFilter2.Size = new System.Drawing.Size(253, 298);
+            this.tlpNtscFilter2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpNtscFilter2.Size = new System.Drawing.Size(253, 350);
             this.tlpNtscFilter2.TabIndex = 6;
             // 
             // trkYFilterLength
@@ -762,6 +823,40 @@ namespace Mesen.GUI.Forms.Config
             this.trkQFilterLength.TabIndex = 26;
             this.trkQFilterLength.Text = "Q Filter (Horizontal Bleed)";
             this.trkQFilterLength.Value = 0;
+            // 
+            // tableLayoutPanel19
+            // 
+            this.tableLayoutPanel19.ColumnCount = 1;
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel19.Controls.Add(this.chkColorimetryCorrection, 0, 0);
+            this.tableLayoutPanel19.Controls.Add(this.checkBox1, 0, 1);
+            this.tableLayoutPanel19.Location = new System.Drawing.Point(3, 153);
+            this.tableLayoutPanel19.Name = "tableLayoutPanel19";
+            this.tableLayoutPanel19.RowCount = 2;
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel19.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel19.Size = new System.Drawing.Size(247, 50);
+            this.tableLayoutPanel19.TabIndex = 27;
+            // 
+            // chkColorimetryCorrection
+            // 
+            this.chkColorimetryCorrection.AutoSize = true;
+            this.chkColorimetryCorrection.Location = new System.Drawing.Point(3, 3);
+            this.chkColorimetryCorrection.Name = "chkColorimetryCorrection";
+            this.chkColorimetryCorrection.Size = new System.Drawing.Size(101, 17);
+            this.chkColorimetryCorrection.TabIndex = 32;
+            this.chkColorimetryCorrection.Text = "Color Correction";
+            this.chkColorimetryCorrection.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(3, 28);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(134, 17);
+            this.checkBox1.TabIndex = 33;
+            this.checkBox1.Text = "Apply Vertical Blending";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // tlpNtscFilter1
             // 
@@ -886,8 +981,8 @@ namespace Mesen.GUI.Forms.Config
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.Controls.Add(this.chkMergeFields, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.chkVerticalBlend, 0, 1);
-            this.tableLayoutPanel6.Controls.Add(this.chkColorimetryCorrection, 1, 1);
             this.tableLayoutPanel6.Controls.Add(this.chkUseExternalPalette, 1, 0);
+            this.tableLayoutPanel6.Controls.Add(this.chkKeepVerticalResolution, 1, 1);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 300);
             this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(0);
@@ -918,16 +1013,6 @@ namespace Mesen.GUI.Forms.Config
             this.chkVerticalBlend.Text = "Apply Vertical Blending";
             this.chkVerticalBlend.UseVisualStyleBackColor = true;
             // 
-            // chkColorimetryCorrection
-            // 
-            this.chkColorimetryCorrection.AutoSize = true;
-            this.chkColorimetryCorrection.Location = new System.Drawing.Point(143, 28);
-            this.chkColorimetryCorrection.Name = "chkColorimetryCorrection";
-            this.chkColorimetryCorrection.Size = new System.Drawing.Size(101, 17);
-            this.chkColorimetryCorrection.TabIndex = 32;
-            this.chkColorimetryCorrection.Text = "Color Correction";
-            this.chkColorimetryCorrection.UseVisualStyleBackColor = true;
-            // 
             // chkUseExternalPalette
             // 
             this.chkUseExternalPalette.AutoSize = true;
@@ -937,6 +1022,17 @@ namespace Mesen.GUI.Forms.Config
             this.chkUseExternalPalette.TabIndex = 33;
             this.chkUseExternalPalette.Text = "External Palette";
             this.chkUseExternalPalette.UseVisualStyleBackColor = true;
+            // 
+            // chkKeepVerticalResolution
+            // 
+            this.chkKeepVerticalResolution.AutoSize = true;
+            this.chkKeepVerticalResolution.Enabled = false;
+            this.chkKeepVerticalResolution.Location = new System.Drawing.Point(143, 28);
+            this.chkKeepVerticalResolution.Name = "chkKeepVerticalResolution";
+            this.chkKeepVerticalResolution.Size = new System.Drawing.Size(83, 17);
+            this.chkKeepVerticalResolution.TabIndex = 32;
+            this.chkKeepVerticalResolution.Text = "Keep v. res.";
+            this.chkKeepVerticalResolution.UseVisualStyleBackColor = true;
             // 
             // grpCommon
             // 
@@ -2021,33 +2117,33 @@ namespace Mesen.GUI.Forms.Config
             this.mnuPresetRgb,
             this.mnuPresetMonochrome});
             this.contextPicturePresets.Name = "contextPicturePresets";
-            this.contextPicturePresets.Size = new System.Drawing.Size(153, 92);
+            this.contextPicturePresets.Size = new System.Drawing.Size(148, 92);
             // 
             // mnuPresetComposite
             // 
             this.mnuPresetComposite.Name = "mnuPresetComposite";
-            this.mnuPresetComposite.Size = new System.Drawing.Size(152, 22);
+            this.mnuPresetComposite.Size = new System.Drawing.Size(147, 22);
             this.mnuPresetComposite.Text = "Composite";
             this.mnuPresetComposite.Click += new System.EventHandler(this.mnuPresetComposite_Click);
             // 
             // mnuPresetSVideo
             // 
             this.mnuPresetSVideo.Name = "mnuPresetSVideo";
-            this.mnuPresetSVideo.Size = new System.Drawing.Size(152, 22);
+            this.mnuPresetSVideo.Size = new System.Drawing.Size(147, 22);
             this.mnuPresetSVideo.Text = "S-Video";
             this.mnuPresetSVideo.Click += new System.EventHandler(this.mnuPresetSVideo_Click);
             // 
             // mnuPresetRgb
             // 
             this.mnuPresetRgb.Name = "mnuPresetRgb";
-            this.mnuPresetRgb.Size = new System.Drawing.Size(152, 22);
+            this.mnuPresetRgb.Size = new System.Drawing.Size(147, 22);
             this.mnuPresetRgb.Text = "RGB";
             this.mnuPresetRgb.Click += new System.EventHandler(this.mnuPresetRgb_Click);
             // 
             // mnuPresetMonochrome
             // 
             this.mnuPresetMonochrome.Name = "mnuPresetMonochrome";
-            this.mnuPresetMonochrome.Size = new System.Drawing.Size(152, 22);
+            this.mnuPresetMonochrome.Size = new System.Drawing.Size(147, 22);
             this.mnuPresetMonochrome.Text = "Monochrome";
             this.mnuPresetMonochrome.Click += new System.EventHandler(this.mnuPresetMonochrome_Click);
             // 
@@ -2065,74 +2161,74 @@ namespace Mesen.GUI.Forms.Config
             this.mnuPaletteUnsaturated,
             this.mnuPaletteYuv});
             this.contextPaletteList.Name = "contextPicturePresets";
-            this.contextPaletteList.Size = new System.Drawing.Size(268, 208);
+            this.contextPaletteList.Size = new System.Drawing.Size(255, 208);
             this.contextPaletteList.Opening += new System.ComponentModel.CancelEventHandler(this.contextPaletteList_Opening);
             // 
             // mnuDefaultPalette
             // 
             this.mnuDefaultPalette.Name = "mnuDefaultPalette";
-            this.mnuDefaultPalette.Size = new System.Drawing.Size(267, 22);
+            this.mnuDefaultPalette.Size = new System.Drawing.Size(254, 22);
             this.mnuDefaultPalette.Text = "Default (NTSC)";
             this.mnuDefaultPalette.Click += new System.EventHandler(this.mnuDefaultPalette_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(264, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(251, 6);
             // 
             // mnuPaletteCompositeDirect
             // 
             this.mnuPaletteCompositeDirect.Name = "mnuPaletteCompositeDirect";
-            this.mnuPaletteCompositeDirect.Size = new System.Drawing.Size(267, 22);
+            this.mnuPaletteCompositeDirect.Size = new System.Drawing.Size(254, 22);
             this.mnuPaletteCompositeDirect.Text = "Composite Direct (by FirebrandX)";
             this.mnuPaletteCompositeDirect.Click += new System.EventHandler(this.mnuPaletteCompositeDirect_Click);
             // 
             // mnuPaletteNesClassic
             // 
             this.mnuPaletteNesClassic.Name = "mnuPaletteNesClassic";
-            this.mnuPaletteNesClassic.Size = new System.Drawing.Size(267, 22);
+            this.mnuPaletteNesClassic.Size = new System.Drawing.Size(254, 22);
             this.mnuPaletteNesClassic.Text = "NES Classic (by FirebrandX)";
             this.mnuPaletteNesClassic.Click += new System.EventHandler(this.mnuPaletteNesClassic_Click);
             // 
             // mnuPaletteNestopiaRgb
             // 
             this.mnuPaletteNestopiaRgb.Name = "mnuPaletteNestopiaRgb";
-            this.mnuPaletteNestopiaRgb.Size = new System.Drawing.Size(267, 22);
+            this.mnuPaletteNestopiaRgb.Size = new System.Drawing.Size(254, 22);
             this.mnuPaletteNestopiaRgb.Text = "Nestopia (RGB)";
             this.mnuPaletteNestopiaRgb.Click += new System.EventHandler(this.mnuPaletteNestopiaRgb_Click);
             // 
             // mnuPaletteOriginalHardware
             // 
             this.mnuPaletteOriginalHardware.Name = "mnuPaletteOriginalHardware";
-            this.mnuPaletteOriginalHardware.Size = new System.Drawing.Size(267, 22);
+            this.mnuPaletteOriginalHardware.Size = new System.Drawing.Size(254, 22);
             this.mnuPaletteOriginalHardware.Text = "Original Hardware (by FirebrandX)";
             this.mnuPaletteOriginalHardware.Click += new System.EventHandler(this.mnuPaletteOriginalHardware_Click);
             // 
             // mnuPalettePvmStyle
             // 
             this.mnuPalettePvmStyle.Name = "mnuPalettePvmStyle";
-            this.mnuPalettePvmStyle.Size = new System.Drawing.Size(267, 22);
+            this.mnuPalettePvmStyle.Size = new System.Drawing.Size(254, 22);
             this.mnuPalettePvmStyle.Text = "PVM Style (by FirebrandX)";
             this.mnuPalettePvmStyle.Click += new System.EventHandler(this.mnuPalettePvmStyle_Click);
             // 
             // mnuPaletteSonyCxa2025As
             // 
             this.mnuPaletteSonyCxa2025As.Name = "mnuPaletteSonyCxa2025As";
-            this.mnuPaletteSonyCxa2025As.Size = new System.Drawing.Size(267, 22);
+            this.mnuPaletteSonyCxa2025As.Size = new System.Drawing.Size(254, 22);
             this.mnuPaletteSonyCxa2025As.Text = "Sony CXA2025AS";
             this.mnuPaletteSonyCxa2025As.Click += new System.EventHandler(this.mnuPaletteSonyCxa2025As_Click);
             // 
             // mnuPaletteUnsaturated
             // 
             this.mnuPaletteUnsaturated.Name = "mnuPaletteUnsaturated";
-            this.mnuPaletteUnsaturated.Size = new System.Drawing.Size(267, 22);
+            this.mnuPaletteUnsaturated.Size = new System.Drawing.Size(254, 22);
             this.mnuPaletteUnsaturated.Text = "Unsaturated v6 (by FirebrandX)";
             this.mnuPaletteUnsaturated.Click += new System.EventHandler(this.mnuPaletteUnsaturated_Click);
             // 
             // mnuPaletteYuv
             // 
             this.mnuPaletteYuv.Name = "mnuPaletteYuv";
-            this.mnuPaletteYuv.Size = new System.Drawing.Size(267, 22);
+            this.mnuPaletteYuv.Size = new System.Drawing.Size(254, 22);
             this.mnuPaletteYuv.Text = "YUV v3 (by FirebrandX)";
             this.mnuPaletteYuv.Click += new System.EventHandler(this.mnuPaletteYuv_Click);
             // 
@@ -2170,8 +2266,13 @@ namespace Mesen.GUI.Forms.Config
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.grpNtscFilter.ResumeLayout(false);
+            this.tlpNtscFilter3.ResumeLayout(false);
             this.tlpNtscFilter2.ResumeLayout(false);
             this.tlpNtscFilter2.PerformLayout();
+            this.tableLayoutPanel19.ResumeLayout(false);
+            this.tableLayoutPanel19.PerformLayout();
+            this.tableLayoutPanel20.ResumeLayout(false);
+            this.tableLayoutPanel20.PerformLayout();
             this.tlpNtscFilter1.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
@@ -2267,7 +2368,6 @@ namespace Mesen.GUI.Forms.Config
 		private Controls.ctrlHorizontalTrackbar trkResolution;
 		private Controls.ctrlHorizontalTrackbar trkSharpness;
 		private System.Windows.Forms.GroupBox grpCommon;
-		private System.Windows.Forms.CheckBox chkMergeFields;
 		private System.Windows.Forms.Button btnResetPictureSettings;
 		private System.Windows.Forms.GroupBox grpScanlines;
 		private Controls.ctrlHorizontalTrackbar trkScanlines;
@@ -2315,8 +2415,6 @@ namespace Mesen.GUI.Forms.Config
 		private System.Windows.Forms.Label lblRequestedRefreshRate;
 		private System.Windows.Forms.ComboBox cboRefreshRate;
 		private System.Windows.Forms.FlowLayoutPanel flpRefreshRate;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
-		private System.Windows.Forms.CheckBox chkVerticalBlend;
 		private System.Windows.Forms.TabControl tabOverscan;
 		private System.Windows.Forms.TabPage tpgOverscanGlobal;
 		private System.Windows.Forms.TabPage tpgOverscanGameSpecific;
@@ -2343,16 +2441,26 @@ namespace Mesen.GUI.Forms.Config
 		private System.Windows.Forms.Label lblGameSpecificOverscanLeft;
 		private System.Windows.Forms.CheckBox chkRemoveSpriteLimit;
 		private System.Windows.Forms.CheckBox chkAdaptiveSpriteLimit;
-	  private System.Windows.Forms.FlowLayoutPanel flpResolution;
-	  private System.Windows.Forms.Label lblFullscreenResolution;
-	  private System.Windows.Forms.ComboBox cboFullscreenResolution;
-	  private System.Windows.Forms.Label lblRequestedRefreshRate2;
-	  private System.Windows.Forms.ComboBox cboRefreshRate2;
-	  private System.Windows.Forms.CheckBox chkColorimetryCorrection;
-	  private System.Windows.Forms.TableLayoutPanel tlpNtscFilter2;
-	  private ctrlHorizontalTrackbar trkYFilterLength;
-	  private ctrlHorizontalTrackbar trkIFilterLength;
-	  private ctrlHorizontalTrackbar trkQFilterLength;
-	  private System.Windows.Forms.CheckBox chkUseExternalPalette;
+		private System.Windows.Forms.FlowLayoutPanel flpResolution;
+		private System.Windows.Forms.Label lblFullscreenResolution;
+		private System.Windows.Forms.ComboBox cboFullscreenResolution;
+		private System.Windows.Forms.Label lblRequestedRefreshRate2;
+		private System.Windows.Forms.ComboBox cboRefreshRate2;
+		private System.Windows.Forms.TableLayoutPanel tlpNtscFilter2;
+		private ctrlHorizontalTrackbar trkYFilterLength;
+		private ctrlHorizontalTrackbar trkIFilterLength;
+		private ctrlHorizontalTrackbar trkQFilterLength;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+		private System.Windows.Forms.CheckBox chkMergeFields;
+		private System.Windows.Forms.CheckBox chkVerticalBlend;
+		private System.Windows.Forms.CheckBox chkUseExternalPalette;
+		private System.Windows.Forms.CheckBox chkKeepVerticalResolution;
+		private System.Windows.Forms.TableLayoutPanel tlpNtscFilter3;
+		private ctrlHorizontalTrackbar trkNoise;
+		private System.Windows.Forms.CheckBox chkFrameBlend;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel19;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel20;
+		private System.Windows.Forms.CheckBox chkColorimetryCorrection;
+		private System.Windows.Forms.CheckBox checkBox1;
    }
 }

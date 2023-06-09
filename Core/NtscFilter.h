@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "BaseVideoFilter.h"
 #include "../Utilities/nes_ntsc.h"
+#include "../Utilities/AutoResetEvent.h"
 
 class Console;
 
@@ -13,8 +14,14 @@ private:
 	bool _keepVerticalRes = false;
 	bool _useExternalPalette = true;
 	uint8_t _palette[512 * 3];
+	uint16_t* _ppuOutputBuffer = nullptr;
 	uint32_t* _ntscBuffer;
 	bool _ntscBorder = true;
+
+	std::thread _extraThread;
+	AutoResetEvent _waitWork;
+	atomic<bool> _stopThread;
+	atomic<bool> _workDone;
 
 	void GenerateArgbFrame(uint32_t *outputBuffer);
 

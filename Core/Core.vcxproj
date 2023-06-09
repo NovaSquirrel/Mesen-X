@@ -589,6 +589,7 @@
     <ClInclude Include="Kaiser7031.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Lh51.h" />
+    <ClInclude Include="LMP88959NtscFilter.h" />
     <ClInclude Include="Mapper116.h" />
     <ClInclude Include="McAcc.h" />
     <ClInclude Include="MMC3_198.h" />
@@ -1122,6 +1123,7 @@
     <ClCompile Include="HdPpu.cpp" />
     <ClCompile Include="HistoryViewer.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="LMP88959NtscFilter.cpp" />
     <ClCompile Include="LuaApi.cpp" />
     <ClCompile Include="LuaCallHelper.cpp" />
     <ClCompile Include="LuaScriptingContext.cpp" />

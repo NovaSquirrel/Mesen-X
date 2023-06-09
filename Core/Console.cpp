@@ -568,9 +568,14 @@ uint32_t Console::GetFrameCount()
 	return _ppu ? _ppu->GetFrameCount() : 0;
 }
 
-uint8_t Console::GetStartingPhase()
+uint8_t Console::GetVideoPhase()
 {
-	return _ppu ? _ppu->GetStartingPhase() : 0;
+	return _ppu ? _ppu->GetVideoPhase() : 0;
+}
+
+bool Console::GetDotSkipped()
+{
+	return _ppu ? _ppu->GetDotSkipped() : 0;
 }
 
 NesModel Console::GetModel()

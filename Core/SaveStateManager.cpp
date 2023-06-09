@@ -337,7 +337,7 @@ int32_t SaveStateManager::GetSaveStatePreview(string saveStatePath, uint8_t* png
 		if(GetScreenshotData(frameData, stream)) {
 			DefaultVideoFilter filter(_console);
 			FrameInfo frameInfo = filter.GetFrameInfo();
-			filter.SendFrame((uint16_t*)frameData.data(), 0);
+			filter.SendFrame((uint16_t*)frameData.data(), 0, 0);
 
 			std::stringstream pngStream;
 			PNGHelper::WritePNG(pngStream, filter.GetOutputBuffer(), frameInfo.Width, frameInfo.Height);

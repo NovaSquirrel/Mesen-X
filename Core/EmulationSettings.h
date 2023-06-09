@@ -168,6 +168,7 @@ enum class VideoFilterType
 	Prescale8x = 23,
 	Prescale10x = 24,
 	Raw = 25,
+	LMP88959Ntsc = 26,
 	HdPack = 999
 };
 
@@ -244,6 +245,9 @@ struct NtscFilterSettings
 	double DecodeMatrixQG = -0.647f;
 	double DecodeMatrixIB = -1.105f;
 	double DecodeMatrixQB = 1.702f;
+
+	double Noise = 0;
+	bool FrameBlend = true;
 };
 
 enum class RamPowerOnState
@@ -1252,7 +1256,9 @@ public:
 		bool verticalBlend,
 		bool keepVerticalResolution,
 		bool colorimetryCorrection,
-		bool useExternalPalette)
+		bool useExternalPalette,
+		double Noise,
+		bool FrameBlend)
 	{
 		_ntscFilterSettings.Artifacts = artifacts;
 		_ntscFilterSettings.Bleed = bleed;
@@ -1279,6 +1285,8 @@ public:
 		_ntscFilterSettings.VerticalBlend = verticalBlend;
 		_ntscFilterSettings.KeepVerticalResolution = keepVerticalResolution;
 		_ntscFilterSettings.ColorimetryCorrection = colorimetryCorrection;
+		_ntscFilterSettings.Noise = Noise;
+		_ntscFilterSettings.FrameBlend = FrameBlend;
 	}
 
 	NtscFilterSettings GetNtscFilterSettings()

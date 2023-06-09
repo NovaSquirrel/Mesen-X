@@ -427,6 +427,8 @@
     <ClInclude Include="BpsPatcher.h" />
     <ClInclude Include="CamstudioCodec.h" />
     <ClInclude Include="CRC32.h" />
+    <ClInclude Include="crt_core.h" />
+    <ClInclude Include="crt_nes.h" />
     <ClInclude Include="FolderUtilities.h" />
     <ClInclude Include="gif.h" />
     <ClInclude Include="GifRecorder.h" />
@@ -478,6 +480,8 @@
     <ClCompile Include="BpsPatcher.cpp" />
     <ClCompile Include="CamstudioCodec.cpp" />
     <ClCompile Include="CRC32.cpp" />
+    <ClCompile Include="crt_core.cpp" />
+    <ClCompile Include="crt_nes.cpp" />
     <ClCompile Include="FolderUtilities.cpp" />
     <ClCompile Include="GifRecorder.cpp" />
     <ClCompile Include="HexUtilities.cpp" />

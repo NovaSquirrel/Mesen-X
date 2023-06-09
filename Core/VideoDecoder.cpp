@@ -5,6 +5,7 @@
 #include "DefaultVideoFilter.h"
 #include "RawVideoFilter.h"
 #include "BisqwitNtscFilter.h"
+#include "LMP88959NtscFilter.h"
 #include "NtscFilter.h"
 #include "HdVideoFilter.h"
 #include "ScaleFilter.h"
@@ -73,6 +74,7 @@ void VideoDecoder::UpdateVideoFilter()
 			case VideoFilterType::BisqwitNtsc: _videoFilter.reset(new BisqwitNtscFilter(_console, 1)); break;
 			case VideoFilterType::BisqwitNtscHalfRes: _videoFilter.reset(new BisqwitNtscFilter(_console, 2)); break;
 			case VideoFilterType::BisqwitNtscQuarterRes: _videoFilter.reset(new BisqwitNtscFilter(_console, 4)); break;
+			case VideoFilterType::LMP88959Ntsc: _videoFilter.reset(new LMP88959NtscFilter(_console)); break;
 			case VideoFilterType::Raw: _videoFilter.reset(new RawVideoFilter(_console)); break;
 			default: _scaleFilter = ScaleFilter::GetScaleFilter(_videoFilterType); break;
 		}
@@ -100,7 +102,7 @@ void VideoDecoder::DecodeFrame(bool synchronous)
 	if(_hdFilterEnabled) {
 		((HdVideoFilter*)_videoFilter.get())->SetHdScreenTiles(_hdScreenInfo);
 	}
-	_videoFilter->SendFrame(_ppuOutputBuffer, _frameNumber);
+	_videoFilter->SendFrame(_ppuOutputBuffer, _frameNumber, _videoPhase);
 
 	uint32_t* outputBuffer = _videoFilter->GetOutputBuffer();
 	FrameInfo frameInfo = _videoFilter->GetFrameInfo();
@@ -193,6 +195,7 @@ void VideoDecoder::UpdateFrame(void *ppuOutputBuffer, HdScreenInfo *hdScreenInfo
 	}
 	
 	_frameNumber = _console->GetFrameCount();
+	_videoPhase = _console->GetVideoPhase();
 	_hdScreenInfo = hdScreenInfo;
 	_ppuOutputBuffer = (uint16_t*)ppuOutputBuffer;
 	_frameChanged = true;
@@ -269,7 +272,7 @@ void VideoDecoder::TakeScreenshot(std::stringstream &stream, bool rawScreenshot)
 	if(rawScreenshot) {
 		//Take screenshot without NTSC filter on
 		DefaultVideoFilter filter(_console);
-		filter.SendFrame(_ppuOutputBuffer, 0);
+		filter.SendFrame(_ppuOutputBuffer, 0, 0);
 		filter.TakeScreenshot(_videoFilterType, "", &stream, rawScreenshot);
 	} else if(_videoFilter) {
 		_videoFilter->TakeScreenshot(_videoFilterType, "", &stream, rawScreenshot);

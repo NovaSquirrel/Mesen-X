@@ -15,6 +15,7 @@ private:
 	SimpleLock _frameLock;
 	OverscanDimensions _overscan;
 	bool _isOddFrame;
+	uint32_t _videoPhase = 0;
 
 	void UpdateBufferSize();
 
@@ -30,7 +31,8 @@ public:
 
 	uint32_t* GetOutputBuffer();
 	bool IsOddFrame();
-	void SendFrame(uint16_t *ppuOutputBuffer, uint32_t frameNumber);
+	uint32_t GetVideoPhase();
+	void SendFrame(uint16_t *ppuOutputBuffer, uint32_t frameNumber, uint32_t videoPhase);
 	void TakeScreenshot(string romName, VideoFilterType filterType);
 	void TakeScreenshot(VideoFilterType filterType, string filename, std::stringstream *stream = nullptr, bool rawScreenshot = false);
 

@@ -64,12 +64,17 @@ namespace Mesen.GUI.Forms.Config
 			AddBinding("NtscSharpness", trkSharpness);
 			AddBinding("NtscMergeFields", chkMergeFields);
 			AddBinding("NtscVerticalBlend", chkVerticalBlend);
+			AddBinding("NtscVerticalBlend", checkBox1);
+			AddBinding("NtscKeepVerticalResolution", chkKeepVerticalResolution);
 			AddBinding("NtscColorimetryCorrection", chkColorimetryCorrection);
 			AddBinding("NtscUseExternalPalette", chkUseExternalPalette);
 
 			AddBinding("NtscYFilterLength", trkYFilterLength);
 			AddBinding("NtscIFilterLength", trkIFilterLength);
 			AddBinding("NtscQFilterLength", trkQFilterLength);
+
+			AddBinding("NtscNoise", trkNoise);
+			AddBinding("NtscFrameBlend", chkFrameBlend);
 
 			AddBinding("RemoveSpriteLimit", chkRemoveSpriteLimit);
 			AddBinding("AdaptiveSpriteLimit", chkAdaptiveSpriteLimit);
@@ -162,22 +167,66 @@ namespace Mesen.GUI.Forms.Config
 			UpdateCustomRatioVisibility();
 			UpdatePalette();
 			VideoFilterType filter = ((VideoInfo)Entity).VideoFilter;
-			if(filter == VideoFilterType.NTSC) {
-				tlpNtscFilter1.Visible = true;
-				tlpNtscFilter2.Visible = false;
-				chkMergeFields.Visible = true;
-				chkColorimetryCorrection.Visible = false;
-				chkUseExternalPalette.Visible = true;
-				grpNtscFilter.Visible = true;
-			} else if(filter == VideoFilterType.BisqwitNtsc || filter == VideoFilterType.BisqwitNtscHalfRes || filter == VideoFilterType.BisqwitNtscQuarterRes) {
-				tlpNtscFilter1.Visible = true;
-				tlpNtscFilter2.Visible = true;
-				chkMergeFields.Visible = false;
-				chkColorimetryCorrection.Visible = true;
-				chkUseExternalPalette.Visible = false;
-				grpNtscFilter.Visible = true;
-			} else {
-				grpNtscFilter.Visible = false;
+			switch (filter)
+			{
+				case VideoFilterType.NTSC:
+					{
+						tlpNtscFilter1.Visible = true;
+						tlpNtscFilter2.Visible = false;
+						tlpNtscFilter3.Visible = false;
+
+						chkMergeFields.Visible = true;
+						chkColorimetryCorrection.Visible = false;
+						chkUseExternalPalette.Visible = true;
+						chkFrameBlend.Visible = false;
+
+						grpNtscFilter.Visible = true;
+					}
+					break;
+				case VideoFilterType.BisqwitNtsc:
+				case VideoFilterType.BisqwitNtscHalfRes:
+				case VideoFilterType.BisqwitNtscQuarterRes:
+					{
+						tlpNtscFilter1.Visible = false;
+						tlpNtscFilter2.Visible = true;
+						tlpNtscFilter3.Visible = false;
+
+						chkMergeFields.Visible = false;
+						chkColorimetryCorrection.Visible = true;
+						chkUseExternalPalette.Visible = false;
+						chkFrameBlend.Visible = false;
+
+						grpNtscFilter.Visible = true;
+					}
+					break;
+				case VideoFilterType.LMP88959Ntsc:
+					{
+						tlpNtscFilter1.Visible = false;
+						tlpNtscFilter2.Visible = false;
+						tlpNtscFilter3.Visible = true;
+
+						chkMergeFields.Visible = false;
+						chkColorimetryCorrection.Visible = false;
+						chkUseExternalPalette.Visible = false;
+						chkFrameBlend.Visible = true;
+
+						grpNtscFilter.Visible = true;
+					}
+					break;
+				default:
+					{
+						tlpNtscFilter1.Visible = false;
+						tlpNtscFilter2.Visible = false;
+						tlpNtscFilter3.Visible = false;
+
+						chkMergeFields.Visible = false;
+						chkColorimetryCorrection.Visible = false;
+						chkUseExternalPalette.Visible = false;
+						chkFrameBlend.Visible = false;
+
+						grpNtscFilter.Visible = false;
+					}
+					break;
 			}
 
 			VideoInfo.ApplyConfig();
@@ -303,11 +352,14 @@ namespace Mesen.GUI.Forms.Config
 			chkMergeFields.Checked = false;
 			chkVerticalBlend.Checked = true;
 			chkColorimetryCorrection.Checked = true;
+			chkKeepVerticalResolution.Checked = true;
 			chkUseExternalPalette.Checked = true;
+			chkFrameBlend.Checked = false;
 
 			trkYFilterLength.Value = 0;
 			trkIFilterLength.Value = 50;
 			trkQFilterLength.Value = 50;
+			trkNoise.Value = 0;
 		}
 
 		private void btnSelectPreset_Click(object sender, EventArgs e)
@@ -515,10 +567,5 @@ namespace Mesen.GUI.Forms.Config
 		{
 			chkAdaptiveSpriteLimit.Enabled = chkRemoveSpriteLimit.Checked;
 		}
-
-	  private void flpResolution_Paint(object sender, PaintEventArgs e)
-	  {
-
-	  }
    }
 }

@@ -36,6 +36,8 @@ PPU::PPU(shared_ptr<Console> console)
 	_console->InitializeRam(_spriteRAM, 0x100);
 	_console->InitializeRam(_secondarySpriteRAM, 0x20);
 
+	_isDotSkipped = false;
+
 	Reset();
 }
 
@@ -104,8 +106,6 @@ void PPU::Reset()
 
 	memset(_oamDecayCycles, 0, sizeof(_oamDecayCycles));
 	_enableOamDecay = _settings->CheckFlag(EmulationFlags::EnableOamDecay);
-
-	_startingPhase = 0;
 
 	UpdateMinimumDrawCycles();
 }
@@ -1014,6 +1014,7 @@ void PPU::ProcessScanline()
 				//This behavior is NTSC-specific - PAL frames are always the same number of cycles
 				//"With rendering enabled, each odd PPU frame is one PPU clock shorter than normal" (skip from 339 to 0, going over 340)
 				_cycle = 340;
+				_isDotSkipped = true;
 			}
 		}
 	}
@@ -1185,6 +1186,13 @@ void PPU::DebugCopyOutputBuffer(uint16_t *target)
 void PPU::SendFrame()
 {
 	UpdateGrayscaleAndIntensifyBits();
+	//Get phase at the start of the current frame (341*241 cycles ago)
+	_videoPhase = ((_masterClock / _masterClockDivider) - 82181) % 3;
+
+	if (_settings->GetPpuExtraScanlinesAfterNmi() != 0 || _settings->GetPpuExtraScanlinesBeforeNmi() != 0) {
+		//Force 2-phase pattern when overclocking is used
+		_videoPhase = _frameCount & 0x01;
+	}
 
 	_console->GetNotificationManager()->SendNotification(ConsoleNotificationType::PpuFrameDone, _currentOutputBuffer);
 
@@ -1355,8 +1363,6 @@ void PPU::Exec()
 	if(_needStateUpdate) {
 		UpdateState();
 	}
-
-	_startingPhase = _cycle % 3;
 }
 
 void PPU::UpdateState()

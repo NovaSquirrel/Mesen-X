@@ -384,27 +384,31 @@ extern "C" {
 				_console->GetSettings()->SetVideoFilterType(VideoFilterType::None);
 			} else if(value == "Composite (Blargg)") {
 				_console->GetSettings()->SetVideoFilterType(VideoFilterType::NTSC);
-				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true);
+				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true, 0);
 			} else if(value == "S-Video (Blargg)") {
 				_console->GetSettings()->SetVideoFilterType(VideoFilterType::NTSC);
-				_console->GetSettings()->SetNtscFilterSettings(-1.0, 0, -1.0, 0, 0.2, 0.2, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true);
+				_console->GetSettings()->SetNtscFilterSettings(-1.0, 0, -1.0, 0, 0.2, 0.2, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true, 0);
 			} else if(value == "RGB (Blargg)") {
 				_console->GetSettings()->SetVideoFilterType(VideoFilterType::NTSC);
 				_console->GetSettings()->SetPictureSettings(0, 0, 0, 0, 0);
-				_console->GetSettings()->SetNtscFilterSettings(-1.0, -1.0, -1.0, 0, 0.7, 0.2, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true);
+				_console->GetSettings()->SetNtscFilterSettings(-1.0, -1.0, -1.0, 0, 0.7, 0.2, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true, 0);
 			} else if(value == "Monochrome (Blargg)") {
 				_console->GetSettings()->SetVideoFilterType(VideoFilterType::NTSC);
 				_console->GetSettings()->SetPictureSettings(0, 0, -1.0, 0, 0);
-				_console->GetSettings()->SetNtscFilterSettings(-0.2, -0.1, -0.2, 0, 0.7, 0.2, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true);
+				_console->GetSettings()->SetNtscFilterSettings(-0.2, -0.1, -0.2, 0, 0.7, 0.2, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true, 0);
 			} else if(value == "Bisqwit 2x") {
 				_console->GetSettings()->SetVideoFilterType(VideoFilterType::BisqwitNtscQuarterRes);
-				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true);
+				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true, 0);
 			} else if(value == "Bisqwit 4x") {
 				_console->GetSettings()->SetVideoFilterType(VideoFilterType::BisqwitNtscHalfRes);
-				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true);
+				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true, 0);
 			} else if(value == "Bisqwit 8x") {
 				_console->GetSettings()->SetVideoFilterType(VideoFilterType::BisqwitNtsc);
-				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true);
+				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true, 0);
+			}
+			else if (value == "LMP88959") {
+				_console->GetSettings()->SetVideoFilterType(VideoFilterType::LMP88959Ntsc);
+				_console->GetSettings()->SetNtscFilterSettings(0, 0, 0, 0, 0, 0, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, true, true, true, 0);
 			}
 		}
 
@@ -1200,6 +1204,7 @@ extern "C" {
 			case VideoFilterType::BisqwitNtscQuarterRes: hscale = 2; break;
 			case VideoFilterType::BisqwitNtscHalfRes: hscale = 4; break;
 			case VideoFilterType::BisqwitNtsc: hscale = 8; break;
+			case VideoFilterType::LMP88959Ntsc: hscale = 2; break;
 			default: hscale = 1; break;
 		}
 		

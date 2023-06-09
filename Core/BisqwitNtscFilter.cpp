@@ -20,20 +20,29 @@ BisqwitNtscFilter::BisqwitNtscFilter(shared_ptr<Console> console, int resDivider
 	//Precalculate the low and high signal chosen for each 64 base colors
 	//with their respective attenuated values
 	for (int h = 0; h <= 1; h++) {
-		for(int i = 0; i <= 0x3F; i++) {
-			int r = (i & 0x0F) >= 0x0E ? 0x1D : i;
+		for (int i = 0; i <= 0x3F; i++) {
 
-			int m = signalLumaLow[h][r / 0x10];
-			int q = signalLumaHigh[h][r / 0x10];
-			if((r & 0x0F) == 13) {
+			int m = signalLumaLow[h][i / 0x10];
+			int q = signalLumaHigh[h][i / 0x10];
+
+			if ((i & 0x0F) == 0x0D) {
 				q = m;
-			} else if((r & 0x0F) == 0) { 
+			}
+			else if ((i & 0x0F) == 0) {
 				m = q;
 			}
+			else if ((i & 0x0F) >= 0x0E) {
+				// colors $xE and $xF are not affected by emphasis
+				// https://forums.nesdev.org/viewtopic.php?p=160669#p160669
+				m = signalLumaLow[0][1];
+				q = signalLumaLow[0][1];
+			}
+
 			_signalLow[h][i] = m;
 			_signalHigh[h][i] = q;
 		}
 	}
+
 	_extraThread = std::thread([=]() {
 		//Worker thread to improve decode speed
 		while(!_stopThread) {
@@ -50,7 +59,7 @@ BisqwitNtscFilter::BisqwitNtscFilter(shared_ptr<Console> console, int resDivider
 			} else {
 				outputBuffer += GetOverscan().GetScreenWidth() * 64 / _resDivider / _resDivider * (120 - GetOverscan().Top);
 			}
-			DecodeFrame(120, 239 - GetOverscan().Bottom, _ppuOutputBuffer, outputBuffer, ((_console->GetModel() == NesModel::NTSC ? _console->GetStartingPhase() : 0) * 4) + 327360);
+			DecodeFrame(120, 239 - GetOverscan().Bottom, outputBuffer, (GetVideoPhase() * 4) + 327360);
 
 			_workDone = true;
 		}
@@ -70,7 +79,7 @@ void BisqwitNtscFilter::ApplyFilter(uint16_t *ppuOutputBuffer)
 
 	_workDone = false;
 	_waitWork.Signal();
-	DecodeFrame(GetOverscan().Top, 120, ppuOutputBuffer, GetOutputBuffer(), ((_console->GetModel() == NesModel::NTSC ? _console->GetStartingPhase() : 0) * 4) + GetOverscan().Top * 341 * 8);
+	DecodeFrame(GetOverscan().Top, 120, GetOutputBuffer(), (GetVideoPhase() * 4) + GetOverscan().Top * 341 * 8);
 	while(!_workDone) {}
 }
 
@@ -96,8 +105,14 @@ void BisqwitNtscFilter::OnBeforeApplyFilter()
 	int saturation = (int)((pictureSettings.Saturation + 1.0) * (pictureSettings.Saturation + 1.0) * 144044);
 	bool colorimetryCorrection = _console->GetSettings()->GetNtscFilterSettings().ColorimetryCorrection;
 
-	// [saturation at 0] * 100 / [I or Q width at 0]
-	double SatFactor = 144044 * 100 / 12;
+	_brightness = static_cast<int>(pictureSettings.Brightness * 750);
+
+	// for some reason the original coefficients
+	// of bisqwit's decoding matrix has been reduced by at least 10^-6
+	// the aim here is to more closely match Bisqwit's palette generator
+	// at hue 0, saturation 1.0, contrast 1.0, brightness 1.0, gamma 1.8
+	// https://bisqwit.iki.fi/utils/nespalette.php
+	double SatFactor = 1000000;
 
 	for(int i = 0; i < 27; i++) {
 		_sinetable[i] = (int8_t)(8 * std::sin(i * 2 * pi / 12 + pictureSettings.Hue * pi));
@@ -109,14 +124,26 @@ void BisqwitNtscFilter::OnBeforeApplyFilter()
 
 	_y = contrast / _yWidth;
 
-	_ir = colorimetryCorrection ? (int)(contrast * 1.994681e-6 * saturation / _iWidth) : (int)(contrast * (0.95599 / SatFactor) * saturation / _iWidth);
-	_qr = colorimetryCorrection ? (int)(contrast * 9.915742e-7 * saturation / _qWidth) : (int)(contrast * (0.62082 / SatFactor) * saturation / _qWidth);
+	_ir = colorimetryCorrection ?
+		(int)(contrast * 1.994681e-6 * saturation / _iWidth) :
+		(int)(contrast * (0.95599 / SatFactor) * saturation / _iWidth);
+	_qr = colorimetryCorrection ?
+		(int)(contrast * 9.915742e-7 * saturation / _qWidth) :
+		(int)(contrast * (0.62082 / SatFactor) * saturation / _qWidth);
 
-	_ig = colorimetryCorrection ? (int)(contrast * 9.151351e-8 * saturation / _iWidth) : (int)(contrast * (-0.27201 / SatFactor) * saturation / _iWidth);
-	_qg = colorimetryCorrection ? (int)(contrast * -6.334805e-7 * saturation / _qWidth) : (int)(contrast * (-0.64720 / SatFactor) * saturation / _qWidth);
+	_ig = colorimetryCorrection ?
+		(int)(contrast * 9.151351e-8 * saturation / _iWidth) :
+		(int)(contrast * (-0.27201 / SatFactor) * saturation / _iWidth);
+	_qg = colorimetryCorrection ?
+		(int)(contrast * -6.334805e-7 * saturation / _qWidth) :
+		(int)(contrast * (-0.64720 / SatFactor) * saturation / _qWidth);
 
-	_ib = colorimetryCorrection ? (int)(contrast * -1.012984e-6 * saturation / _iWidth) : (int)(contrast * (-1.10674 / SatFactor) * saturation / _iWidth);
-	_qb = colorimetryCorrection ? (int)(contrast * 1.667217e-6 * saturation / _qWidth) : (int)(contrast * (1.70423 / SatFactor) * saturation / _qWidth);
+	_ib = colorimetryCorrection ?
+		(int)(contrast * -1.012984e-6 * saturation / _iWidth) :
+		(int)(contrast * (-1.10674 / SatFactor) * saturation / _iWidth);
+	_qb = colorimetryCorrection ?
+		(int)(contrast * 1.667217e-6 * saturation / _qWidth) :
+		(int)(contrast * (1.70423 / SatFactor) * saturation / _qWidth);
 }
 
 void BisqwitNtscFilter::RecursiveBlend(int iterationCount, uint64_t *output, uint64_t *currentLine, uint64_t *nextLine, int pixelsPerCycle, bool verticalBlend)
@@ -167,37 +194,30 @@ void BisqwitNtscFilter::GenerateNtscSignal(int8_t *ntscSignal, int &phase, int r
 {
 	for(int x = -_paddingSize; x < 256 + _paddingSize; x++) {
 		// pixel_color = Pixel color (9-bit) given as input. Bitmask format: "eeellcccc".
-		uint16_t pixel_color = _ppuOutputBuffer[(rowNumber << 8) | (x < 0 ? 0 : (x >= 256 ? 255 : x))];
+		uint16_t pixel_color = _ppuOutputBuffer[(rowNumber << 8) | x];
 
 		int8_t emphasis = pixel_color >> 6;
 		int8_t color = pixel_color & 0x3F;
-
-		auto phase_shift_up = [=](uint16_t value, uint16_t amt) {
-			amt = amt % 12;
-			uint16_t uint12_value = value & 0xFFF;
-			uint32_t result = (((uint12_value << 12) | uint12_value) & 0xFFFFFFFF);
-			return uint16_t((result >> (amt % 12)) & 0xFFFF);
-		};
+		int8_t hue = color & 0x0F;
 
 		uint16_t emphasis_wave = 0;
-		if (emphasis & 0b001)		// tint R; color phase C
-			emphasis_wave |= 0b000000111111;
-		if (emphasis & 0b010)		// tint G; color phase 4
-			emphasis_wave |= 0b001111110000;
-		if (emphasis & 0b100)		// tint B; color phase 8
-			emphasis_wave |= 0b111100000011;
-		if (emphasis)
-			emphasis_wave = phase_shift_up(emphasis_wave, (color & 0x0F));
+		if(emphasis) {
+			if(emphasis & 0b001)		// tint R; aligned to color phase C
+				emphasis_wave |= 0b000000111111;
+			if(emphasis & 0b010)		// tint G; aligned to color phase 4
+				emphasis_wave |= 0b001111110000;
+			if(emphasis & 0b100)		// tint B; aligned to color phase 8
+				emphasis_wave |= 0b111100000011;
+			// phase shift 12-bit waveform relative to pixel hue
+			emphasis_wave = ((emphasis_wave >> (hue % 12)) | (emphasis_wave << (12 - (hue % 12)))) & 0xFFFF;
+		}
 
-		uint16_t phaseBitmask = _bitmaskLut[std::abs(phase - (color & 0x0F)) % 12];
+		uint16_t phaseBitmask = _bitmaskLut[std::abs(phase - hue) % 12];
 		bool attenuate = 0;
 
 		int8_t voltage;
 		for(int j = 0; j < _signalsPerPixel; j++) {
-			// colors $xE and $xF are not affected by emphasis
-			// https://forums.nesdev.org/viewtopic.php?p=160669#p160669
-			if ((color & 0x0F) <= 0x0D)
-				attenuate = (phaseBitmask & emphasis_wave);
+			attenuate = (phaseBitmask & emphasis_wave);
 
 			voltage = _signalHigh[attenuate][color];
 			
@@ -218,7 +238,7 @@ void BisqwitNtscFilter::GenerateNtscSignal(int8_t *ntscSignal, int &phase, int r
 	phase += (341 - 256 - _paddingSize * 2) * _signalsPerPixel;
 }
 
-void BisqwitNtscFilter::DecodeFrame(int startRow, int endRow, uint16_t *ppuOutputBuffer, uint32_t* outputBuffer, int startPhase)
+void BisqwitNtscFilter::DecodeFrame(int startRow, int endRow, uint32_t* outputBuffer, int startPhase)
 {
 	int pixelsPerCycle = 8 / _resDivider;
 	int phase = startPhase;
@@ -296,8 +316,7 @@ void BisqwitNtscFilter::NtscDecodeLine(int width, const int8_t* signal, uint32_t
 	auto Cos = [=](int pos) -> char { return _sinetable[(pos + 36) % 12 + phase0]; };
 	auto Sin = [=](int pos) -> char { return _sinetable[(pos + 36) % 12 + 3 + phase0]; };
 
-	int brightness = (int)(_console->GetSettings()->GetPictureSettings().Brightness * 750);
-	int ysum = brightness, isum = 0, qsum = 0;
+	int ysum = _brightness, isum = 0, qsum = 0;
 	int offset = _resDivider + 4;
 	int leftOverscan = (GetOverscan().Left + _paddingSize) * 8 + offset;
 	int rightOverscan = width - (GetOverscan().Right + _paddingSize) * 8 + offset;

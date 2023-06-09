@@ -10,7 +10,7 @@
 extern "C" {
 	void __stdcall PgoRunTest(vector<string> testRoms, bool enableDebugger)
 	{
-		const VideoFilterType filterTypes[13] = { VideoFilterType::BisqwitNtscQuarterRes, VideoFilterType::HQ2x, VideoFilterType::HQ3x, VideoFilterType::HQ4x, VideoFilterType::NTSC, VideoFilterType::Scale2x, VideoFilterType::Scale3x, VideoFilterType::Scale4x, VideoFilterType::xBRZ2x, VideoFilterType::xBRZ3x, VideoFilterType::xBRZ4x, VideoFilterType::xBRZ5x, VideoFilterType::xBRZ6x };
+		const VideoFilterType filterTypes[14] = { VideoFilterType::BisqwitNtscQuarterRes, VideoFilterType::LMP88959Ntsc, VideoFilterType::HQ2x, VideoFilterType::HQ3x, VideoFilterType::HQ4x, VideoFilterType::NTSC, VideoFilterType::Scale2x, VideoFilterType::Scale3x, VideoFilterType::Scale4x, VideoFilterType::xBRZ2x, VideoFilterType::xBRZ3x, VideoFilterType::xBRZ4x, VideoFilterType::xBRZ5x, VideoFilterType::xBRZ6x };
 		FolderUtilities::SetHomeFolder("../PGOMesenHome");
 
 		for(size_t i = 0; i < testRoms.size(); i++) {

@@ -110,6 +110,7 @@ shared_ptr<ScaleFilter> ScaleFilter::GetScaleFilter(VideoFilterType filter)
 		case VideoFilterType::NTSC:
 		case VideoFilterType::HdPack:
 		case VideoFilterType::Raw:
+		case VideoFilterType::LMP88959Ntsc:
 		case VideoFilterType::None:
 			break;
 

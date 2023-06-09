@@ -232,7 +232,7 @@ namespace Mesen.GUI
 		[DllImport(DLLPath)] public static extern void SetVideoResizeFilter(VideoResizeFilter filter);
 		[DllImport(DLLPath)] public static extern void SetRgbPalette(byte[] palette, UInt32 paletteSize);
 		[DllImport(DLLPath)] public static extern void SetPictureSettings(double brightness, double contrast, double saturation, double hue, double scanlineIntensity);
-		[DllImport(DLLPath)] public static extern void SetNtscFilterSettings(double artifacts, double bleed, double fringing, double gamma, double resolution, double sharpness, [MarshalAs(UnmanagedType.I1)]bool mergeFields, double yFilterLength, double iFilterLength, double qFilterLength, double decodeMatrixIR, double decodeMatrixQR, double decodeMatrixIG, double decodeMatrixQG, double decodeMatrixIB, double decodeMatrixQB, [MarshalAs(UnmanagedType.I1)]bool verticalBlend, [MarshalAs(UnmanagedType.I1)] bool colorimetryCorrection, [MarshalAs(UnmanagedType.I1)] bool useExternalPalette);
+		[DllImport(DLLPath)] public static extern void SetNtscFilterSettings(double artifacts, double bleed, double fringing, double gamma, double resolution, double sharpness, [MarshalAs(UnmanagedType.I1)]bool mergeFields, double yFilterLength, double iFilterLength, double qFilterLength, double decodeMatrixIR, double decodeMatrixQR, double decodeMatrixIG, double decodeMatrixQG, double decodeMatrixIB, double decodeMatrixQB, [MarshalAs(UnmanagedType.I1)]bool verticalBlend, [MarshalAs(UnmanagedType.I1)]bool keepVerticalResolution, [MarshalAs(UnmanagedType.I1)] bool colorimetryCorrection, [MarshalAs(UnmanagedType.I1)] bool useExternalPalette, double Noise, [MarshalAs(UnmanagedType.I1)] bool frameBlend);
 		[DllImport(DLLPath)] public static extern void SetInputDisplaySettings(byte visiblePorts, InputDisplayPosition displayPosition, [MarshalAs(UnmanagedType.I1)]bool displayHorizontally);
 		[DllImport(DLLPath)] public static extern void SetAutoSaveOptions(UInt32 delayInMinutes, [MarshalAs(UnmanagedType.I1)]bool showMessage);
 		[DllImport(DLLPath)] public static extern void SetPauseScreenMessage([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8Marshaler))]string message);
@@ -2361,6 +2361,7 @@ namespace Mesen.GUI
 		Prescale6x = 22,
 		Prescale8x = 23,
 		Prescale10x = 24,
+		LMP88959Ntsc = 26,
 	}
 
 	public enum HDPackOuputTileType

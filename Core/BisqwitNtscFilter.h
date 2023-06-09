@@ -23,6 +23,8 @@ private:
 
 	int _resDivider = 1;
 	uint16_t *_ppuOutputBuffer = nullptr;
+
+	int _brightness = 0;
 	
 	/* Ywidth, Iwidth and Qwidth are the filter widths for Y,I,Q respectively.
 	* All widths at 12 produce the best signal quality.
@@ -46,7 +48,7 @@ private:
 	void NtscDecodeLine(int width, const int8_t* signal, uint32_t* target, int phase0);
 	
 	void GenerateNtscSignal(int8_t *ntscSignal, int &phase, int rowNumber);
-	void DecodeFrame(int startRow, int endRow, uint16_t *ppuOutputBuffer, uint32_t* outputBuffer, int startPhase);
+	void DecodeFrame(int startRow, int endRow, uint32_t* outputBuffer, int startPhase);
 	void OnBeforeApplyFilter();
 
 public:

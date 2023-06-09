@@ -41,6 +41,7 @@ private:
 	atomic<bool> _frameChanged;
 	atomic<bool> _stopFlag;
 	uint32_t _frameCount = 0;
+	uint32_t _videoPhase = 0;
 
 	ScreenSize _previousScreenSize = {};
 	double _previousScale = 0;

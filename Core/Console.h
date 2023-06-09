@@ -205,7 +205,8 @@ public:
 	RomInfo GetRomInfo();
 	uint32_t GetFrameCount();
 	// https://forums.nesdev.org/viewtopic.php?p=30625#p30625
-	uint8_t GetStartingPhase();
+	uint8_t GetVideoPhase();
+	bool GetDotSkipped();
 	NesModel GetModel();
 
 	uint32_t GetLagCounter();

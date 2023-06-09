@@ -1853,6 +1853,7 @@
     <ClInclude Include="fmopn_2608rom.h">
       <Filter>Nes\Mappers\EPSG</Filter>
     </ClInclude>
+    <ClInclude Include="LMP88959NtscFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2163,6 +2164,9 @@
     </ClCompile>
     <ClCompile Include="emu2149.cpp">
       <Filter>Nes\Mappers\EPSG</Filter>
+    </ClCompile>
+    <ClCompile Include="LMP88959NtscFilter.cpp">
+      <Filter>Misc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1079,6 +1079,7 @@
 			<Value ID="BisqwitNtscQuarterRes">NTSC 2 倍 (Bisqwit)</Value>
 			<Value ID="BisqwitNtscHalfRes">NTSC 4 倍 (Bisqwit)</Value>
 			<Value ID="BisqwitNtsc">NTSC 8 倍 (Bisqwit)</Value>
+			<Value ID="LMP88959Ntsc">NTSC 2 倍 (LMP88959)</Value>
 			<Value ID="xBRZ2x">xBRZ 2 倍</Value>
 			<Value ID="xBRZ3x">xBRZ 3 倍</Value>
 			<Value ID="xBRZ4x">xBRZ 4 倍</Value>
