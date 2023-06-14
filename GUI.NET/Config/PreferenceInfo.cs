@@ -166,9 +166,7 @@ namespace Mesen.GUI.Config
 		{
 			PreferenceInfo preferenceInfo = ConfigManager.Config.PreferenceInfo;
 			
-			if(Program.IsMono) {
-				FileAssociationHelper.ConfigureLinuxMimeTypes();
-			} else {
+			if(!Program.IsMono) {
 				FileAssociationHelper.UpdateFileAssociation("nes", preferenceInfo.AssociateNesFiles);
 				FileAssociationHelper.UpdateFileAssociation("fds", preferenceInfo.AssociateFdsFiles);
 				FileAssociationHelper.UpdateFileAssociation("mmo", preferenceInfo.AssociateMmoFiles);

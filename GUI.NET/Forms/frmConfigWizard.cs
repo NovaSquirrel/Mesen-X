@@ -70,6 +70,7 @@ namespace Mesen.GUI.Forms
 				string shortcutFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "mesen.desktop");
 				FileAssociationHelper.CreateShortcutFile(shortcutFile);
 				Process.Start("chmod", "775 " + shortcutFile); 
+				FileAssociationHelper.ConfigureLinuxMimeTypes();
 			} else {
 				Type t = Type.GetTypeFromCLSID(new Guid("72C24DD5-D70A-438B-8A42-98424B88AFB8"));
 				dynamic shell = Activator.CreateInstance(t);

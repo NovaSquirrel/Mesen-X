@@ -59,18 +59,7 @@ namespace Mesen.GUI.Config
 			}
 
 
-			//Use a GUID to get a unique filename and then delete old files to force a reset of file associations
-			//Otherwise they are sometimes not refreshed properly
-			string desktopFilename = "mesen." + Guid.NewGuid().ToString() + ".desktop";
-			string desktopFile = Path.Combine(desktopFolder, desktopFilename);
-
-			foreach(string file in Directory.GetFiles(desktopFolder, "mesen.*.desktop")) {
-				if(File.Exists(file)) {
-					try {
-						File.Delete(file);
-					} catch { }
-				}
-			}
+			string desktopFile = Path.Combine(desktopFolder, "mesen.desktop");
 
 			List<string> mimeTypes = new List<string>();
 			CreateMimeType("x-mesen-nes", "nes", "NES ROM", mimeTypes, preferenceInfo.AssociateNesFiles);
